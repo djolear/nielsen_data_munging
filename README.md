@@ -20,3 +20,5 @@ We also use a classification system from prior academic reasearch to classify fo
 
 1. [The Effect of Supercenter-format Stores on the Healthfulness of Consumers' Grocery Purchases.](https://onlinelibrary.wiley.com/doi/full/10.1093/ajae/aas132)
 By Richard Volpe, Abigail Okrent, & Ephraim Leibtag. Published in 2013.
+2. [The Effect of SNAP on the Composition of Purchased Foods: Evidence and Implications.](https://www.aeaweb.org/articles?id=10.1257/pol.20190350&&from=f) By Justine Hastings
+Ryan Kessler, & Jesse M. Shapiro. Published in 2020.
