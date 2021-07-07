@@ -1,2 +1,2 @@
-# nielsen_data_munging
+# Nielsen Data Munging
 Code for cleaning and working with Nielsen data.
