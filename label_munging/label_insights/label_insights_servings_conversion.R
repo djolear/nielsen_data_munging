@@ -1,7 +1,7 @@
-# label insights file as 'li_upc'
+# label insights file as 'label_insights'
 
 servings_master <- 
-  li_upc %>% 
+  label_insights %>% 
   mutate(
     # For products that have # servings per pack, convert this variable to numeric.
     servings = gsub("[^0-9.]", "", `Serves Per Pack`),
@@ -145,20 +145,20 @@ servings_third_pass <-
 servings_third_pass %>% 
   count(!is.na(new_servings), new_size_uom2 == new_serving_size_uom2)
 
-li_upc_update <-
+label_insights_servings_converted <-
   bind_rows(
     servings_first_pass,
     servings_second_pass,
     servings_third_pass
   )
 
-# li_upc_update %>% 
+# label_insights_servings_converted %>% 
 #   count(is.na(new_servings))
 
 # convert nutrition
 
-li_upc_update <-
-  li_upc_update %>% 
+label_insights_servings_converted <-
+  label_insights_servings_converted %>% 
   filter(!is.na(new_servings)) %>% 
   mutate(
     calories = Calories * new_servings,
