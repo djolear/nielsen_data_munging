@@ -18,5 +18,5 @@ In addition to using data from the Nielsen, this project uses data from several 
 
 We also use a classification system from prior academic reasearch to classify foods as healthy or not.
 
-1. [The Effect of Supercenter-format Stores on the Healthfulness of Consumers' Grocery Purchases. (Richard Volpe, Abigail Okrent, & Ephraim Leibtag, 2013)] (https://onlinelibrary.wiley.com/doi/full/10.1093/ajae/aas132)
+1. [The Effect of Supercenter-format Stores on the Healthfulness of Consumers' Grocery Purchases. By Richard Volpe, Abigail Okrent, & Ephraim Leibtag. Published in 2013.] (https://onlinelibrary.wiley.com/doi/full/10.1093/ajae/aas132)
 
