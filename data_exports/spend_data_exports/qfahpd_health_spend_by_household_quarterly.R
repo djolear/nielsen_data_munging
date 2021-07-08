@@ -28,6 +28,7 @@ bind_nielsen_data_fn <- function(year) {
  
   niel_df <-
     purchase %>% 
+    dplyr::select(trip_code_uc, upc, upc_ver_uc, total_price_paid) %>% 
     left_join(
       trips %>% 
         dplyr::select(
@@ -38,89 +39,92 @@ bind_nielsen_data_fn <- function(year) {
         )
     ) %>% 
     mutate(
+      month = month(purchase_date),
       quarter = quarter(purchase_date),
       year = year
-    )
-  
-  niel_df <-
-    niel_df %>% 
-    left_join(
-      products_master %>% 
-        dplyr::select(
-          product_module_descr,
-          product_group_descr,
-          department_descr,
-          size1_amount,
-          size1_units,
-          upc,
-          upc_ver_uc
-        )
-    )
-  
-  qfpahd_main <- 
-    haven::read_dta("/home/djolear/nielsen/qfahpd_constant.dta") %>% 
-    mutate(
-      foodgroup_i_main = paste0("foodgroup_", foodgroup_i)
     ) %>% 
-    dplyr::select(-foodgroup_i)
+    dplyr::select(household_code,  upc, upc_ver_uc, total_spent, quarter, year)
   
-  qfpahd_secondary <- 
-    haven::read_dta("/home/djolear/nielsen/qfahpd_changing.dta") %>% 
-    mutate(
-      foodgroup_i_secondary = paste0("foodgroup_", foodgroup_i)
-    ) %>% 
-    dplyr::select(-foodgroup_i)
+  # niel_df <-
+  #   niel_df %>% 
+  #   left_join(
+  #     products_master %>% 
+  #       dplyr::select(
+  #         product_module_descr,
+  #         product_group_descr,
+  #         department_descr,
+  #         size1_amount,
+  #         size1_units,
+  #         upc,
+  #         upc_ver_uc
+  #       )
+  #   )
+  
+  qfahpd_main <- 
+    read_csv("/home/djolear/nielsen/qfahpd_main_w_tfp_and_health.csv") %>% 
+    dplyr::select(upc, upc_ver_uc, qfahpd_health)
+  
+  qfahpd_secondary <- 
+    read_csv("/home/djolear/nielsen/qfahpd_secondary_w_tfp_and_health.csv") %>% 
+    dplyr::select(upc, upc_ver_uc, qfahpd_health, year)
   
   
   niel_df <-
     niel_df %>% mutate(upc = as.double(upc)) %>% 
     left_join(
-      qfpahd_main,
+      qfahpd_main,
       by = c("upc", "upc_ver_uc")
     )
   
   niel_df <-
     niel_df %>% mutate(upc = as.double(upc)) %>% 
     left_join(
-      qfpahd_secondary,
+      qfahpd_secondary,
       by = c("upc", "upc_ver_uc", "year")
     )
   
   niel_df <-
     niel_df %>% 
     mutate(
-      foodgroup_i = coalesce(foodgroup_i_main, foodgroup_i_secondary)
+      #foodgroup_i = coalesce(foodgroup_i_main, foodgroup_i_secondary),
+      qfahpd_health = coalesce(qfahpd_health.x, qfahpd_health.y)
+    ) %>% 
+    dplyr::select(
+      -c(qfahpd_health.x, qfahpd_health.y)
     )
   
   rm(purchase, trips, products_master)
-  
   gc()
   
   return(niel_df)
 }
 
 
-foodgroup_spend_by_household_fn <- function(niel_df, year) {
+qfahpd_health_spend_by_household_fn <- function(niel_df, year) {
   
-  foodgroup_spending_data <-
+  
+  qfahpd_health_spending_data <-
     niel_df %>% 
     dplyr::select(
       household_code,
       total_spent,
-      foodgroup_i,
+      qfahpd_health,
       quarter
     ) %>% 
-    filter(!is.na(foodgroup_i))
+    filter(!is.na(qfahpd_health))
   
-  foodgroup_spend_by_household <-
-    foodgroup_spending_data %>% 
-    group_by(household_code, foodgroup_i, quarter) %>% 
+  rm(niel_df)
+  gc()
+  
+  qfahpd_health_spend_by_household <-
+    qfahpd_health_spending_data %>% 
+    group_by(household_code, qfahpd_health, quarter) %>% 
     summarise(
-      foodgroup_total_spend = sum(total_spent)
+      qfahpd_health_total_spend = sum(total_spent)
     )
   
   total_spend_by_houshold <-
-    foodgroup_spending_data %>% 
+    qfahpd_health_spending_data %>% 
     group_by(household_code, quarter) %>% 
     summarise(
       total_spend = sum(total_spent)
@@ -129,33 +133,33 @@ foodgroup_spend_by_household_fn <- function(niel_df, year) {
   panelists <-
     readr::read_tsv(paste0("/kilts/nielsen_extracts/HMS/", year, "/Annual_Files/panelists_", year, ".tsv"))
   
-  foodgroup_spend_by_household <- 
-    foodgroup_spend_by_household %>% 
+  qfahpd_health_spend_by_household <- 
+    qfahpd_health_spend_by_household %>% 
     left_join(
       total_spend_by_houshold,
       by = c("household_code", "quarter")
     ) %>% 
     mutate(
-      foodgroup_prop_spend = foodgroup_total_spend / total_spend
+      qfahpd_health_prop_spend = qfahpd_health_total_spend / total_spend
     ) 
   
-  foodgroup_spend_by_household <- 
-    foodgroup_spend_by_household %>% 
+  qfahpd_health_spend_by_household <- 
+    qfahpd_health_spend_by_household %>% 
     dplyr::select(
       household_code, 
-      foodgroup_i,
+      qfahpd_health,
       quarter,
-      foodgroup_prop_spend
+      qfahpd_health_prop_spend
     )
 
-  foodgroup_spend_by_household_wide <-
-    foodgroup_spend_by_household %>% 
-    spread(foodgroup_i, foodgroup_prop_spend)
+  qfahpd_health_spend_by_household_wide <-
+    qfahpd_health_spend_by_household %>% 
+    spread(qfahpd_health, qfahpd_health_prop_spend)
             
-  rm(foodgroup_spend_by_household)
+  rm(qfahpd_health_spend_by_household)
   
-  foodgroup_spend_by_household_wide <-
-    foodgroup_spend_by_household_wide %>% 
+  qfahpd_health_spend_by_household_wide <-
+    qfahpd_health_spend_by_household_wide %>% 
     left_join(
       panelists %>% 
         dplyr::select(
@@ -171,25 +175,24 @@ foodgroup_spend_by_household_fn <- function(niel_df, year) {
           Fips_State_Cd,
           cty_fips = Fips_County_Cd,
           Fips_County_Cd,
-          Wic_Indicator_Current           
+          Wic_Indicator_Current            
         ),
       by = "household_code"
     )
   
-  write_csv(foodgroup_spend_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/qfahpd_spend_quarterly/foodgroup_spend_by_household_quarterly_wide_", year, ".csv"))
+  write_csv(qfahpd_health_spend_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/qfahpd_spend_quarterly/qfahpd_health_spend_by_household_quarterly_wide_", year, ".csv"))
   print(paste0("Wide format data saved for ", year, "."))
   
   return(0)
 }
 
 
-main_foodgroup_spend_by_household_fn <- function(year){
+main_qfahpd_health_spend_by_household_fn <- function(year){
   niel_df <- bind_nielsen_data_fn(year)
-  foodgroup_spend_by_household_fn(niel_df, year)
+  qfahpd_health_spend_by_household_fn(niel_df, year)
 }
 
 years <- seq(2004, 2019, 1)
-# years <- seq(2004, 2017)
 
 # for(i in 1:length(years)) {
 #   main_group_spend_by_household_fn(years[i])
@@ -200,7 +203,7 @@ cl <- makeCluster(4)
 registerDoParallel(cl)
 
 foreach(i = 1:length(years), .packages = c("tidyverse", "lubridate")) %dopar% {
-  main_foodgroup_spend_by_household_fn(years[i])
+  main_qfahpd_health_spend_by_household_fn(years[i])
   gc()
 }
 
@@ -208,5 +211,5 @@ foreach(i = 1:length(years), .packages = c("tidyverse", "lubridate")) %dopar% {
 stopCluster(cl)
 
 
-# map(.x = years, .f = main_foodgroup_spend_by_household_fn)
+# map(.x = years, .f = main_qfahpd_health_spend_by_household_fn)
 
