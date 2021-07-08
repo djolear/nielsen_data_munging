@@ -1,11 +1,12 @@
 # Nielsen Data Munging
-This repository contains code for cleaning and working with Nielsen data. The data munging performed by this code is currently focused primarily on food purchases.
+This repository contains code for cleaning and working with Nielsen data. The data munging performed by this code is currently focused primarily on food purchases. Note that many of the scripts are designed to work on the Mercury Computing Cluster and take advantage of parallelization.
 
 ### Folder Structure
 
 1. The **label_munging** folder contains scripts for cleaning nutrition label data from third party sources (Label Insights and Syndigo).
 2. The **nutrition_imputation** folder contains scripts for imputing nutrition information for products that are not covered by the third party label datasets.
 3. The **join_usda** folder contains scripts for joining in datasets from the USDA.
+4. The **data_exports** folder contains scripts for export data summaries to analyze.
 
 ### Data Sources
 
