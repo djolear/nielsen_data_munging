@@ -39,7 +39,7 @@ label_insights_servings_converted_calories <-
   dplyr::select(
     UPC,
     upc_new,
-    Calories
+    calories
   )
 
 write_csv(label_insights_servings_converted_calories, "G:/My Drive/research/projects/niel/label_insights_data/label_insights_servings_converted_calories_only_031721.csv")
