@@ -3,11 +3,11 @@
 ## Load Packages ##
 ###################
 
-library("tidyverse", lib.loc = "/home/djolear/R")
-library("haven", lib.loc = "/home/djolear/R")
-library("lubridate", lib.loc = "/home/djolear/R")
-library("doParallel", lib.loc = "/home/djolear/R")
-library("foreach", lib.loc = "/home/djolear/R")
+library("tidyverse", lib.loc = "/home/djolear/Rpackages")
+library("haven", lib.loc = "/home/djolear/Rpackages")
+library("lubridate", lib.loc = "/home/djolear/Rpackages")
+library("doParallel", lib.loc = "/home/djolear/Rpackages")
+library("foreach", lib.loc = "/home/djolear/Rpackages")
 
 ###############
 ## Functions ##
@@ -32,7 +32,7 @@ products_master <-
 products_master <-
   products_master %>% 
   filter(department_descr %!in% c("HEALTH & BEAUTY CARE", "NON-FOOD GROCERY", "GENERAL MERCHANDISE", "MAGNET DATA")) %>% 
-  count(size1_units %in% c("CT", "OZ", "PO", "LI", "QT", "ML"))
+  filter(size1_units %in% c("CT", "OZ", "PO", "LI", "QT", "ML"))
 
 # Convert UPCs
 products_master <-
@@ -58,7 +58,8 @@ products_master <-
 
 # Load Label Insights data
 label_insights <-
-  read_csv("G:/My Drive/research/projects/niel/label_insights_data/label_insights_servings_converted_calories_only_031721.csv")
+  read_csv("/project/ourminsk/nielsen/data/label_insights_servings_converted_calories_only_031721.csv") %>% 
+  mutate(calories_sc = calories)
 
 # Join Label Insights data to Nielsen product master file
 products_master <-
@@ -153,6 +154,6 @@ products_master <-
 products_master %>% count(is.na(calories_sc))
 products_master %>% count(is.na(calories_sc_imp))
 
-write_csv(products_master, "/project/ourminsk/nielsen/products_master_imputed_calories_servings_conversion.csv")
+write_csv(products_master, "/project/ourminsk/nielsen/data/products_master_imputed_calories_servings_conversion.csv")
 
 
