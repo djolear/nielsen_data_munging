@@ -160,16 +160,20 @@ calories_per_qfahpd_health_fn <- function(year, products_master, qfahpd_main, qf
           household_code = Household_Cd,
           income = Household_Income,
           household_size = Household_Size,
+          Household_Composition,
+          Projection_Factor,
+          Panel_Year ,
           Male_Head_Age:Female_Head_Occupation,
           Marital_Status,
           Race,
+          Hispanic_Origin,
           zip = Panelist_ZipCd,
           Panelist_ZipCd,
           state_fips = Fips_State_Cd,
           Fips_State_Cd,
           cty_fips = Fips_County_Cd,
           Fips_County_Cd,
-          Wic_Indicator_Current            
+          Wic_Indicator_Current              
         ),
       by = "household_code"
     )
@@ -183,16 +187,16 @@ calories_per_qfahpd_health_fn <- function(year, products_master, qfahpd_main, qf
 }
 
 products_master <- 
-  readr::read_csv("/home/djolear/nielsen/data/products_master_imputed_calories_servings_conversion.csv")
+  readr::read_csv("/project/ourminsk/nielsen/data/products_master_imputed_calories_servings_conversion.csv")
 
 head(products_master)
 
 qfahpd_main <- 
-  read_csv("/home/djolear/nielsen/data/qfahpd_main_w_tfp_and_health.csv") %>% 
+  read_csv("/project/ourminsk/nielsen/data/qfahpd_main_w_tfp_and_health.csv") %>% 
   dplyr::select(upc, upc_ver_uc, qfahpd_health)
 
 qfahpd_secondary <- 
-  read_csv("/home/djolear/nielsen/data/qfahpd_secondary_w_tfp_and_health.csv") %>% 
+  read_csv("/project/ourminsk/nielsen/data/qfahpd_secondary_w_tfp_and_health.csv") %>% 
   dplyr::select(upc, upc_ver_uc, qfahpd_health, year)
 
 main_qfahpd_health_calories_by_household_fn <- function(year){

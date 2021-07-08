@@ -160,16 +160,17 @@ calories_per_qfahpd_health_fn <- function(year, products_master, qfahpd_main, qf
           household_code = Household_Cd,
           income = Household_Income,
           household_size = Household_Size,
+          Household_Composition,
+          Projection_Factor,
+          Panel_Year ,
           Male_Head_Age:Female_Head_Occupation,
           Marital_Status,
           Race,
-          zip = Panelist_ZipCd,
+          Hispanic_Origin,
           Panelist_ZipCd,
-          state_fips = Fips_State_Cd,
           Fips_State_Cd,
-          cty_fips = Fips_County_Cd,
           Fips_County_Cd,
-          Wic_Indicator_Current            
+          Wic_Indicator_Current              
         ),
       by = "household_code"
     )

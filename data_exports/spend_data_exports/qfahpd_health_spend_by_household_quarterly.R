@@ -61,11 +61,11 @@ bind_nielsen_data_fn <- function(year) {
   #   )
   
   qfahpd_main <- 
-    read_csv("/home/djolear/nielsen/qfahpd_main_w_tfp_and_health.csv") %>% 
+    read_csv("/project/ourminsk/nielsen/data/qfahpd_main_w_tfp_and_health.csv") %>% 
     dplyr::select(upc, upc_ver_uc, qfahpd_health)
   
   qfahpd_secondary <- 
-    read_csv("/home/djolear/nielsen/qfahpd_secondary_w_tfp_and_health.csv") %>% 
+    read_csv("/project/ourminsk/nielsen/data/qfahpd_secondary_w_tfp_and_health.csv") %>% 
     dplyr::select(upc, upc_ver_uc, qfahpd_health, year)
   
   
@@ -166,16 +166,17 @@ qfahpd_health_spend_by_household_fn <- function(niel_df, year) {
           household_code = Household_Cd,
           income = Household_Income,
           household_size = Household_Size,
+          Household_Composition,
+          Projection_Factor,
+          Panel_Year ,
           Male_Head_Age:Female_Head_Occupation,
           Marital_Status,
           Race,
-          zip = Panelist_ZipCd,
+          Hispanic_Origin,
           Panelist_ZipCd,
-          state_fips = Fips_State_Cd,
           Fips_State_Cd,
-          cty_fips = Fips_County_Cd,
           Fips_County_Cd,
-          Wic_Indicator_Current            
+          Wic_Indicator_Current               
         ),
       by = "household_code"
     )
