@@ -4,5 +4,10 @@ This folders contains code for creating data summaries or exports of the Nielsen
 ### Folder Structure
 
 1. The **calories_data_exports** folder contains scripts for calculating the percentage of a households calorie budget that is allotted to different categories over different time periods.
-    - **qfahpd_calories_by_household_monthly.R** calculates the percentage of households calorie budget that is allotted to Quarterly Food At Home Price Database categories that have been classified as healthy or noth healthy (see top-level repository for more on this classification).
+    - **qfahpd_health_calories_by_household_monthly.R** calculates the percentage of a household's calorie budget that is allotted to Quarterly Food At Home Price Database categories that have been classified as healthy or not healthy (see top-level repository for more on this classification) each month. This file is currently set up to export this data for products that have had both a servings conversion and an imputation procedure applied.
+    - **qfahpd_health_calories_by_household_quarterly.R** calculates the percentage of a household's calorie budget that is allotted to Quarterly Food At Home Price Database categories that have been classified as healthy or not healthy (see top-level repository for more on this classification) each quarter. This file is currently set up to export this data for products that have had both a servings conversion and an imputation procedure applied.
+    
 2. The **spend_data_exports** folder contains scripts for calculating the percentage of a households food spend budget that is allotted to different categories over different time periods.
+    - **qfahpd_health_spend_by_household_monthly.R** calculates the percentage of a household's food spend budget that is allotted to Quarterly Food At Home Price Database categories that have been classified as healthy or not healthy (see top-level repository for more on this classification) each month.
+    - **qfahpd_health_spend_by_household_quarterly.R** calculates the percentage of a household's food spend budget that is allotted to Quarterly Food At Home Price Database categories that have been classified as healthy or not healthy (see top-level repository for more on this classification) each quarter.
+    
