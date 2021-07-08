@@ -176,7 +176,7 @@ calories_per_qfahpd_health_fn <- function(year, products_master, qfahpd_main, qf
   
   rm(panelists)
   
-  write_csv(qfahpd_health_calories_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/qfahpd_calories_sc_imputed_monthly/qfahpd_health_calories_imputed_sc_by_household_monthly_wide_", year, ".csv"))
+  write_csv(qfahpd_health_calories_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/qfahpd_health_calories_sc_imputed_monthly/qfahpd_health_calories_imputed_sc_by_household_monthly_wide_", year, ".csv"))
   print(paste0("Wide format data saved for ", year, "."))
   
   gc()

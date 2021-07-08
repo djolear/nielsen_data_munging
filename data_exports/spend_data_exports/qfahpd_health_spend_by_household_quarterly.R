@@ -180,7 +180,7 @@ qfahpd_health_spend_by_household_fn <- function(niel_df, year) {
       by = "household_code"
     )
   
-  write_csv(qfahpd_health_spend_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/qfahpd_spend_quarterly/qfahpd_health_spend_by_household_quarterly_wide_", year, ".csv"))
+  write_csv(qfahpd_health_spend_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/qfahpd_health_spend_quarterly/qfahpd_health_spend_by_household_quarterly_wide_", year, ".csv"))
   print(paste0("Wide format data saved for ", year, "."))
   
   return(0)
