@@ -167,11 +167,8 @@ calories_per_qfahpd_health_fn <- function(year, products_master, qfahpd_main, qf
           Marital_Status,
           Race,
           Hispanic_Origin,
-          zip = Panelist_ZipCd,
           Panelist_ZipCd,
-          state_fips = Fips_State_Cd,
           Fips_State_Cd,
-          cty_fips = Fips_County_Cd,
           Fips_County_Cd,
           Wic_Indicator_Current              
         ),
