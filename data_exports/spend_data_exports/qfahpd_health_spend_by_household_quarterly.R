@@ -176,7 +176,7 @@ qfahpd_health_spend_by_household_fn <- function(niel_df, year) {
           Panelist_ZipCd,
           Fips_State_Cd,
           Fips_County_Cd,
-          Wic_Indicator_Current               
+          Wic_Indicator_Current
         ),
       by = "household_code"
     )
