@@ -178,7 +178,7 @@ calories_per_tfp_fn <- function(year, products_master, qfahpd_main, qfahpd_secon
   rm(panelists)
   
   
-  write_csv(qfahpd_health_calories_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/tfp_calories_sc_imputed_monthly/tfp_calories_imputed_sc_by_household_monthly_wide_", year, ".csv"))
+  write_csv(tfp_calories_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/tfp_calories_sc_imputed_monthly/tfp_calories_imputed_sc_by_household_monthly_wide_", year, ".csv"))
   print(paste0("Wide format data saved for ", year, "."))
   
   gc()
