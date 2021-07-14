@@ -94,7 +94,6 @@ calories_per_tfp_fn <- function(year, products_master, qfahpd_main, qfahpd_secon
   niel_df <-
     niel_df %>% 
     mutate(
-      #foodgroup_i = coalesce(foodgroup_i_main, foodgroup_i_secondary),
       tfp = coalesce(tfp.x, tfp.y)
     ) %>% 
     dplyr::select(
@@ -183,6 +182,8 @@ calories_per_tfp_fn <- function(year, products_master, qfahpd_main, qfahpd_secon
   
   gc()
 }
+
+
 products_master <- 
   readr::read_csv("/project/ourminsk/nielsen/data/products_master_imputed_calories_servings_conversion.csv")
 
@@ -190,11 +191,11 @@ head(products_master)
 
 qfahpd_main <- 
   read_csv("/project/ourminsk/nielsen/data/qfahpd_main_w_tfp_and_health.csv") %>% 
-  dplyr::select(upc, upc_ver_uc, qfahpd_health)
+  dplyr::select(upc, upc_ver_uc, tfp, qfahpd_health)
 
 qfahpd_secondary <- 
   read_csv("/project/ourminsk/nielsen/data/qfahpd_secondary_w_tfp_and_health.csv") %>% 
-  dplyr::select(upc, upc_ver_uc, qfahpd_health, year)
+  dplyr::select(upc, upc_ver_uc, tfp, qfahpd_health, year)
 
 main_tfp_calories_by_household_fn <- function(year){
   calories_per_tfp_fn(year, products_master, qfahpd_main, qfahpd_secondary)
@@ -206,8 +207,8 @@ main_tfp_calories_by_household_fn <- function(year){
 years <- seq(2004, 2019, 1)
 
 
-cores = 4
-cl <- makeCluster(4) 
+cores = 2
+cl <- makeCluster(2) 
 registerDoParallel(cl)
 
 foreach(i = 1:length(years), .packages = c("tidyverse", "lubridate")) %dopar% {
