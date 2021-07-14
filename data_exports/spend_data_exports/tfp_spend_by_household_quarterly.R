@@ -46,11 +46,11 @@ bind_nielsen_data_fn <- function(year) {
   
   qfahpd_main <- 
     read_csv("/project/ourminsk/nielsen/data/qfahpd_main_w_tfp_and_health.csv") %>% 
-    dplyr::select(upc, upc_ver_uc, qfahpd_health)
+    dplyr::select(upc, upc_ver_uc, tfp, qfahpd_health)
   
   qfahpd_secondary <- 
     read_csv("/project/ourminsk/nielsen/data/qfahpd_secondary_w_tfp_and_health.csv") %>% 
-    dplyr::select(upc, upc_ver_uc, qfahpd_health, year)
+    dplyr::select(upc, upc_ver_uc, tfp, qfahpd_health, year)
   
   
   niel_df <-
@@ -164,7 +164,7 @@ tfp_spend_by_household_fn <- function(niel_df, year) {
       by = "household_code"
     )
   
-  write_csv(qfahpd_health_spend_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/tfp_spend_quarterly/tfp_spend_by_household_quarterly_wide_", year, ".csv"))
+  write_csv(tfp_spend_by_household_wide, paste0("/project/ourminsk/nielsen/data/data_exports/tfp_spend_quarterly/tfp_spend_by_household_quarterly_wide_", year, ".csv"))
   print(paste0("Wide format data saved for ", year, "."))
   
   return(0)
